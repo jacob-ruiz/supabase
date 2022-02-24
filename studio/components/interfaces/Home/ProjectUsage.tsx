@@ -98,7 +98,7 @@ const ProjectUsage: FC<Props> = ({ project }) => {
       <div className="">
         {startDate && endDate && (
           <>
-            <div className="grid lg:grid-cols-3 lg:gap-8">
+            <div className="grid lg:grid-cols-2 lg:gap-8">
               <Panel key="database-chart">
                 <Panel.Content className="space-y-4">
                   <PanelHeader
@@ -159,6 +159,8 @@ const ProjectUsage: FC<Props> = ({ project }) => {
                   />
                 </Panel.Content>
               </Panel>
+            </div>
+            <div className="grid lg:grid-cols-2 lg:gap-8">
               <Panel key="storage-chart">
                 <Panel.Content className="space-y-4">
                   <PanelHeader
@@ -189,32 +191,35 @@ const ProjectUsage: FC<Props> = ({ project }) => {
                   />
                 </Panel.Content>
               </Panel>
+              <Panel key="realtime-chart">
+                <Panel.Content className="space-y-4">
+                  <PanelHeader
+                    icon={
+                      <div className="bg-scale-600 text-scale-1000 shadow-sm rounded p-1.5">
+                        <IconZap strokeWidth={2} size={16} />
+                      </div>
+                    }
+                    title="Realtime"
+                  />
+                  <ChartHandler
+                    startDate={startDate}
+                    endDate={endDate}
+                    attribute={'total_realtime_requests'}
+                    label={
+                      METRICS.find((x: any) => x.key == 'total_realtime_requests')?.label ?? ''
+                    }
+                    provider="log-stats"
+                    interval="1h"
+                    hideChartType
+                    customDateFormat={datetimeFormat}
+                    data={charts}
+                    isLoading={!charts && !error ? true : false}
+                    onBarClick={(v) => handleBarClick(v, '/realtime')}
+                  />
+                  <div className="py-[1.64rem]" />
+                </Panel.Content>
+              </Panel>
             </div>
-            <Panel key="realtime-chart">
-              <Panel.Content className="space-y-4">
-                <PanelHeader
-                  icon={
-                    <div className="bg-scale-600 text-scale-1000 shadow-sm rounded p-1.5">
-                      <IconZap strokeWidth={2} size={16} />
-                    </div>
-                  }
-                  title="Realtime"
-                />
-                <ChartHandler
-                  startDate={startDate}
-                  endDate={endDate}
-                  attribute={'total_realtime_requests'}
-                  label={METRICS.find((x: any) => x.key == 'total_realtime_requests')?.label ?? ''}
-                  provider="log-stats"
-                  interval="1h"
-                  hideChartType
-                  customDateFormat={datetimeFormat}
-                  data={charts}
-                  isLoading={!charts && !error ? true : false}
-                  onBarClick={(v) => handleBarClick(v, '/realtime')}
-                />
-              </Panel.Content>
-            </Panel>
           </>
         )}
       </div>
