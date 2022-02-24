@@ -3,7 +3,6 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import {
   Button,
-  Divider,
   Dropdown,
   Typography,
   Listbox,
@@ -14,8 +13,6 @@ import {
   IconEdit,
   IconTrash,
   IconSearch,
-  IconPlus,
-  IconDatabase,
   IconX,
   IconLoader,
   IconRefreshCw,
@@ -26,6 +23,7 @@ import { PostgresSchema, PostgresTable } from '@supabase/postgres-meta'
 import Base64 from 'lib/base64'
 import { useStore } from 'hooks'
 import { SchemaView } from './TableEditorLayout.types'
+import ProductMenuItem from 'components/ui/ProductMenu/ProductMenuItem'
 
 interface Props {
   selectedSchema?: string
@@ -83,16 +81,13 @@ const TableEditorMenu: FC<Props> = ({
   const schemaTables =
     searchText.length === 0
       ? tables
-      : tables.filter((table) => table.name.toLowerCase().includes(searchText.toLowerCase()))
+      : // @ts-ignore
+        tables.filter((table) => table.name.toLowerCase().includes(searchText.toLowerCase()))
 
   const filteredSchemaViews =
     searchText.length === 0
       ? schemaViews
       : schemaViews.filter((view) => view.name.includes(searchText))
-
-  // Temp fix - Ideally we'd just take up all the remaining space but
-  // can't seem to figure that out immediately
-  const maxScrollHeight = schemaViews.length > 0 ? 270 : 515
 
   return (
     <div className="my-6 mx-4 flex flex-col flex-grow space-y-6">
@@ -108,6 +103,7 @@ const TableEditorMenu: FC<Props> = ({
             <Listbox
               size="tiny"
               value={selectedSchema}
+              // @ts-ignore
               onChange={(name: string) => {
                 setSearchText('')
                 setSchemaViews([])
@@ -118,6 +114,7 @@ const TableEditorMenu: FC<Props> = ({
                 <Listbox.Option
                   key={schema.id}
                   value={schema.name}
+                  // @ts-ignore
                   label={
                     <>
                       <span className="text-scale-900">schema</span> <span>{schema.name}</span>
@@ -198,52 +195,49 @@ const TableEditorMenu: FC<Props> = ({
             {schemaTables.map((table) => {
               const isActive = Number(id) === table.id
               return (
-                <Link key={table.name} href={`/project/${projectRef}/editor/${table.id}`}>
-                  <a className="block editor-product-menu">
-                    <Menu.Item rounded active={isActive}>
-                      <div className="flex w-full justify-between py-[2px]">
-                        <Typography.Text className="truncate flex items-center">
-                          {table.name}
-                        </Typography.Text>
-                        {isActive && (
-                          <Dropdown
-                            size="small"
-                            side="bottom"
-                            align="start"
-                            overlay={[
-                              <Dropdown.Item
-                                key="edit-table"
-                                icon={<IconEdit size="tiny" />}
-                                onClick={() => onEditTable(table)}
-                              >
-                                Edit Table
-                              </Dropdown.Item>,
-                              <Dropdown.Item
-                                key="duplicate-table"
-                                icon={<IconCopy size="tiny" />}
-                                onClick={() => onDuplicateTable(table)}
-                              >
-                                Duplicate Table
-                              </Dropdown.Item>,
-                              <Dropdown.Seperator />,
-                              <Dropdown.Item
-                                key="delete-table"
-                                icon={<IconTrash size="tiny" />}
-                                onClick={() => onDeleteTable(table)}
-                              >
-                                Delete Table
-                              </Dropdown.Item>,
-                            ]}
+                <ProductMenuItem
+                  key={table.name}
+                  url={`/project/${projectRef}/editor/${table.id}`}
+                  name={table.name}
+                  isActive={isActive}
+                  action={
+                    isActive && (
+                      <Dropdown
+                        size="small"
+                        side="bottom"
+                        align="start"
+                        overlay={[
+                          <Dropdown.Item
+                            key="edit-table"
+                            icon={<IconEdit size="tiny" />}
+                            onClick={() => onEditTable(table)}
                           >
-                            <div className="text-scale-900 transition-colors hover:text-scale-1200">
-                              <IconChevronDown size={14} strokeWidth={2} />
-                            </div>
-                          </Dropdown>
-                        )}
-                      </div>
-                    </Menu.Item>
-                  </a>
-                </Link>
+                            Edit Table
+                          </Dropdown.Item>,
+                          <Dropdown.Item
+                            key="duplicate-table"
+                            icon={<IconCopy size="tiny" />}
+                            onClick={() => onDuplicateTable(table)}
+                          >
+                            Duplicate Table
+                          </Dropdown.Item>,
+                          <Dropdown.Seperator />,
+                          <Dropdown.Item
+                            key="delete-table"
+                            icon={<IconTrash size="tiny" />}
+                            onClick={() => onDeleteTable(table)}
+                          >
+                            Delete Table
+                          </Dropdown.Item>,
+                        ]}
+                      >
+                        <div className="text-scale-900 transition-colors hover:text-scale-1200">
+                          <IconChevronDown size={14} strokeWidth={2} />
+                        </div>
+                      </Dropdown>
+                    )
+                  }
+                />
               )
             })}
           </div>
