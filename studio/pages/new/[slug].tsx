@@ -76,14 +76,14 @@ export const Wizard = observer(() => {
   const currentOrg = organizations.find((o: any) => o.slug === slug)
   const stripeCustomerId = currentOrg?.stripe_customer_id
 
-  const totalFreeProjects = 600 // ui.profile?.total_free_projects ?? 0
-  const freeProjectsLimit = 600 // ui.profile?.free_project_limit ?? DEFAULT_FREE_PROJECTS_LIMIT
+  const totalFreeProjects = subscriptionStats.total_free_projects
+  const freeProjectsLimit = ui.profile?.free_project_limit ?? DEFAULT_FREE_PROJECTS_LIMIT
 
   const isEmptyOrganizations = organizations.length <= 0
   const isEmptyPaymentMethod = stripeCustomer
     ? stripeCustomer.paymentMethods?.data?.length <= 0
     : undefined
-  const isOverFreeProjectLimit = false // totalFreeProjects >= freeProjectsLimit
+  const isOverFreeProjectLimit = totalFreeProjects >= freeProjectsLimit
   const isInvalidSlug = isUndefined(currentOrg)
   const isSelectFreeTier = dbPricingPlan === PRICING_PLANS.FREE
 
