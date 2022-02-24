@@ -7,7 +7,7 @@ import { useRef, useState, useEffect } from 'react'
 import { debounce, isUndefined, values } from 'lodash'
 import { toJS } from 'mobx'
 import { observer } from 'mobx-react-lite'
-import { Button, Typography, Listbox, IconUsers, IconAlertCircle, Input } from '@supabase/ui'
+import { Button, Listbox, IconUsers, IconAlertCircle, Input, IconLoader } from '@supabase/ui'
 
 import { API_URL } from 'lib/constants'
 import { post } from 'lib/common/fetch'
@@ -25,7 +25,6 @@ import { useStore, withAuth } from 'hooks'
 import { WizardLayout } from 'components/layouts'
 import { getURL } from 'lib/helpers'
 
-import FormField from 'components/to-be-cleaned/forms/FormField'
 import Panel from 'components/to-be-cleaned/Panel'
 import InformationBox from 'components/ui/InformationBox'
 import { passwordStrength } from 'lib/helpers'
@@ -223,6 +222,7 @@ export const Wizard = observer(() => {
               <br />
             </p>
           </Panel.Content>
+
           <Panel.Content className="Form section-block--body has-inputs-centered border-b border-t border-panel-border-interior-light dark:border-panel-border-interior-dark space-y-4">
             <Listbox
               label="Organization"
@@ -249,6 +249,7 @@ export const Wizard = observer(() => {
             <>
               <Panel.Content className="Form section-block--body has-inputs-centered border-b border-t border-panel-border-interior-light dark:border-panel-border-interior-dark">
                 <Input
+                  id="project-name"
                   layout="horizontal"
                   label="Name"
                   type="text"
@@ -261,6 +262,7 @@ export const Wizard = observer(() => {
 
               <Panel.Content className="Form section-block--body has-inputs-centered border-b border-panel-border-interior-light dark:border-panel-border-interior-dark">
                 <Input
+                  id="password"
                   layout="horizontal"
                   label="Database Password"
                   type="password"
@@ -317,6 +319,7 @@ export const Wizard = observer(() => {
                 label="Pricing Plan"
                 layout="horizontal"
                 value={dbPricingPlan}
+                // @ts-ignore
                 onChange={onDbPricingPlanChange}
                 // @ts-ignore
                 descriptionText={
@@ -346,9 +349,8 @@ export const Wizard = observer(() => {
 
           {subscriptionStats.isLoading && (
             <Panel.Content>
-              <div className="py-10">
-                {/* @ts-ignore */}
-                <Loading active={true} />
+              <div className="py-10 flex items-center justify-center">
+                <IconLoader size={16} className="animate-spin" />
               </div>
             </Panel.Content>
           )}
