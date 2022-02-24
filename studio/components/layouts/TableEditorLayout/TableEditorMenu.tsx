@@ -91,44 +91,44 @@ const TableEditorMenu: FC<Props> = ({
 
   return (
     <div className="my-6 mx-4 flex flex-col flex-grow space-y-6">
-      <div className="space-y-3">
-        {/* Schema selection dropdown */}
-        <div className="px-3">
-          {meta.schemas.isLoading ? (
-            <div className="h-[30px] border border-gray-500 px-3 rounded flex items-center space-x-3">
-              <IconLoader className="animate-spin" size={12} />
-              <span className="text-xs text-scale-900">Loading schemas...</span>
-            </div>
-          ) : (
-            <Listbox
-              size="tiny"
-              value={selectedSchema}
-              // @ts-ignore
-              onChange={(name: string) => {
-                setSearchText('')
-                setSchemaViews([])
-                onSelectSchema(name)
-              }}
-            >
-              {schemas.map((schema) => (
-                <Listbox.Option
-                  key={schema.id}
-                  value={schema.name}
-                  // @ts-ignore
-                  label={
-                    <>
-                      <span className="text-scale-900">schema</span> <span>{schema.name}</span>
-                    </>
-                  }
-                >
-                  <span className="text-scale-900">schema</span>{' '}
-                  <span className="text-scale-1200">{schema.name}</span>
-                </Listbox.Option>
-              ))}
-            </Listbox>
-          )}
-        </div>
+      {/* Schema selection dropdown */}
+      <div className="px-3">
+        {meta.schemas.isLoading ? (
+          <div className="h-[30px] border border-gray-500 px-3 rounded flex items-center space-x-3">
+            <IconLoader className="animate-spin" size={12} />
+            <span className="text-xs text-scale-900">Loading schemas...</span>
+          </div>
+        ) : (
+          <Listbox
+            size="tiny"
+            value={selectedSchema}
+            // @ts-ignore
+            onChange={(name: string) => {
+              setSearchText('')
+              setSchemaViews([])
+              onSelectSchema(name)
+            }}
+          >
+            {schemas.map((schema) => (
+              <Listbox.Option
+                key={schema.id}
+                value={schema.name}
+                // @ts-ignore
+                label={
+                  <>
+                    <span className="text-scale-900">schema</span> <span>{schema.name}</span>
+                  </>
+                }
+              >
+                <span className="text-scale-900">schema</span>{' '}
+                <span className="text-scale-1200">{schema.name}</span>
+              </Listbox.Option>
+            ))}
+          </Listbox>
+        )}
+      </div>
 
+      <div className="space-y-1">
         {selectedSchema === 'public' && (
           <div className="px-3">
             {/* Add new table button */}
@@ -148,30 +148,29 @@ const TableEditorMenu: FC<Props> = ({
             </Button>
           </div>
         )}
-      </div>
-
-      {/* Table search input */}
-      <div className="block mb-2 px-3">
-        <Input
-          // layout="vertical"
-          className="border-none"
-          icon={
-            <div className="text-scale-900">
-              <IconSearch size={12} strokeWidth={1.5} />
-            </div>
-          }
-          placeholder="Filter tables"
-          onChange={(e) => setSearchText(e.target.value)}
-          value={searchText}
-          size="tiny"
-          actions={
-            searchText && (
-              <Button size="tiny" type="text" onClick={() => setSearchText('')}>
-                <IconX size={12} strokeWidth={2} />
-              </Button>
-            )
-          }
-        />
+        {/* Table search input */}
+        <div className="block mb-2 px-3">
+          <Input
+            // layout="vertical"
+            className="border-none"
+            icon={
+              <div className="text-scale-900">
+                <IconSearch size={12} strokeWidth={1.5} />
+              </div>
+            }
+            placeholder="Filter tables"
+            onChange={(e) => setSearchText(e.target.value)}
+            value={searchText}
+            size="tiny"
+            actions={
+              searchText && (
+                <Button size="tiny" type="text" onClick={() => setSearchText('')}>
+                  <IconX size={12} strokeWidth={2} />
+                </Button>
+              )
+            }
+          />
+        </div>
       </div>
 
       {/* List of tables belonging to selected schema */}
