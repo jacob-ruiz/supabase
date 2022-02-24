@@ -41,8 +41,23 @@ function Panel(props: any) {
           </div>
         )}
       </div>
+      {props.footer && (
+        <div
+          className="
+      bg-panel-footer-light dark:bg-panel-footer-dark
+      border-t border-panel-border-interior-light dark:border-panel-border-interior-dark"
+        >
+          <div className="px-6 h-12 flex items-center">{props.footer}</div>
+        </div>
+      )}
     </Loading>
   )
+
+  if (props.wrapWithLoading === false) {
+    return content
+  }
+
+  return <Loading active={props.loading}>{content}</Loading>
 }
 
 function Content(props: any) {
