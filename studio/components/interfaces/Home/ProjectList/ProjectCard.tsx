@@ -10,16 +10,24 @@ interface Props {
 
   onSelectRestore?: () => void | undefined
   onSelectDelete?: () => void | undefined
+
+  rewriteHref?: string
 }
 
-const ProjectCard: FC<Props> = ({ project, paused, onSelectRestore, onSelectDelete }) => {
+const ProjectCard: FC<Props> = ({
+  project,
+  paused,
+  onSelectRestore,
+  onSelectDelete,
+  rewriteHref,
+}) => {
   const { name, ref: projectRef, status } = project
   const desc = `${project.cloud_provider} | ${project.region}`
 
   return (
     <li className="col-span-1">
       <CardButton
-        linkHref={paused ? '' : `/project/${projectRef}`}
+        linkHref={rewriteHref ? rewriteHref : paused ? '' : `/project/${projectRef}`}
         title={
           <div className="flex items-center gap-3 w-full">
             <span>{name}</span>
