@@ -1,16 +1,14 @@
 import { FC } from 'react'
 
-import { Badge, Button, IconAlertCircle, IconClock, IconWatch, Typography } from '@supabase/ui'
+import { Badge, Button, IconClock } from '@supabase/ui'
 import { Project } from 'types'
 import CardButton from 'components/ui/CardButton'
 
 interface Props {
   project: Project
   paused: boolean
-
-  onSelectRestore?: () => void | undefined
-  onSelectDelete?: () => void | undefined
-
+  onSelectRestore?: () => void
+  onSelectDelete?: () => void
   rewriteHref?: string
 }
 
@@ -48,10 +46,18 @@ const ProjectCard: FC<Props> = ({
             {paused && (
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2">
-                  <Button size="tiny" type="primary" onClick={() => onSelectRestore()}>
+                  <Button
+                    size="tiny"
+                    type="primary"
+                    onClick={() => onSelectRestore && onSelectRestore()}
+                  >
                     Restore
                   </Button>
-                  <Button size="tiny" type="default" onClick={() => onSelectDelete()}>
+                  <Button
+                    size="tiny"
+                    type="default"
+                    onClick={() => onSelectDelete && onSelectDelete()}
+                  >
                     Delete
                   </Button>
                 </div>
