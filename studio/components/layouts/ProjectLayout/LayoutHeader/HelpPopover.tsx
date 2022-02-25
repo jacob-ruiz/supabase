@@ -1,4 +1,11 @@
-import { Button, IconHelpCircle, IconMail, IconMessageCircle, Popover, IconBookOpen } from '@supabase/ui'
+import {
+  Button,
+  IconHelpCircle,
+  IconMail,
+  IconMessageCircle,
+  Popover,
+  IconBookOpen,
+} from '@supabase/ui'
 import { useRouter } from 'next/router'
 import { FC } from 'react'
 import Link from 'next/link'
@@ -27,16 +34,18 @@ const HelpPopover: FC<Props> = () => {
               For issues with your project hosted on supabase.com, or other inquiries about our
               hosted services.
             </p>
-            <Link href={supportUrl}>
-              <Button type="default" icon={<IconMail />}>
-                Contact support team
-              </Button>
-            </Link>
-            <Link href="https://supabase.com/docs/">
-                <Button type="secondary" size="tiny" icon={<IconBookOpen/>}>
+            <div className="space-x-2">
+              <Link href={supportUrl}>
+                <Button type="default" icon={<IconMail />}>
+                  Contact support team
+                </Button>
+              </Link>
+              <Link href="https://supabase.com/docs/">
+                <Button type="secondary" size="tiny" icon={<IconBookOpen />}>
                   Docs
                 </Button>
               </Link>
+            </div>
             <p className="text-sm text-scale-900">
               Expected response time is based on your billing tier. Pro and Pay as You Go plans are
               prioritised.
