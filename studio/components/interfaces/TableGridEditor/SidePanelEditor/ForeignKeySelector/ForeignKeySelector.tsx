@@ -105,7 +105,7 @@ const ForeignKeySelector: FC<Props> = ({
 
   return (
     <SidePanel
-      key="ColumnConfiguration"
+      key="ForeignKeySelector"
       size="medium"
       visible={visible}
       onCancel={closePanel}
