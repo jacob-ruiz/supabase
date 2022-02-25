@@ -13,14 +13,12 @@ import PausedProjectCard from './PausedProjectCard'
 interface Props {
   onSelectRestore: (project: Project) => void
   onSelectDelete: (project: Project) => void
-  showInactiveProjects?: boolean
   rewriteHref?: (projectRef: string) => string
 }
 
 const ProjectList: FC<Props> = ({
   onSelectRestore = () => {},
   onSelectDelete = () => {},
-  showInactiveProjects = true,
   rewriteHref,
 }) => {
   const router = useRouter()
@@ -53,27 +51,15 @@ const ProjectList: FC<Props> = ({
                   </div>
                 </div>
               )}
-              {sortedProjects?.map((project: Project) =>
-                project.status === PROJECT_STATUS.INACTIVE ? (
-                  showInactiveProjects && (
-                    <ProjectCard
-                      paused={project.status === PROJECT_STATUS.INACTIVE}
-                      key={makeRandomString(5)}
-                      project={project}
-                      onSelectDelete={() => onSelectDelete(project)}
-                      onSelectRestore={() => onSelectRestore(project)}
-                    />
-                  )
-                ) : (
-                  <ProjectCard
-                    paused={project.status === PROJECT_STATUS.INACTIVE}
-                    key={makeRandomString(5)}
-                    project={project}
-                    onSelectDelete={() => onSelectDelete(project)}
-                    onSelectRestore={() => onSelectRestore(project)}
-                  />
-                )
-              )}
+              {sortedProjects?.map((project: Project) => (
+                <ProjectCard
+                  paused={project.status === PROJECT_STATUS.INACTIVE}
+                  key={makeRandomString(5)}
+                  project={project}
+                  onSelectDelete={() => onSelectDelete(project)}
+                  onSelectRestore={() => onSelectRestore(project)}
+                />
+              ))}
             </ul>
           </div>
         )

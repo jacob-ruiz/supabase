@@ -42,7 +42,7 @@ const ProjectCard: FC<Props> = ({
         description={''}
         footer={
           <div className="lowercase flex items-center justify-between">
-            <span className="text-scale-900">{desc}</span>
+            <span className="text-sm text-scale-900">{desc}</span>
             {paused && (
               <div className="flex items-center gap-2">
                 <div className="flex items-center gap-2">
